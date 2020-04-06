@@ -1,0 +1,15 @@
+on:
+  schedule:
+    - cron:  '25 15 * * *' # daily cron
+name: Update PyPi registry
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - uses: bartbroere/pypi.bartbroere.eu@master
+    - name: Scrape Christoph Gohlke
+      run: python3 scrape.py
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
