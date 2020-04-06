@@ -1,6 +1,6 @@
 on:
   schedule:
-    - cron:  '25 15 * * *' # daily cron
+    - cron:  '30 * * * *' # hourly cron
 name: Update PyPi registry
 jobs:
   build:
@@ -10,6 +10,11 @@ jobs:
     - uses: actions/checkout@master
     - uses: bartbroere/pypi.bartbroere.eu@master
     - name: Scrape Christoph Gohlke
-      run: python3 scrape.py
+      run: |
+        python3 scrape.py
+        git remote add github "https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git"
+        git pull github ${GITHUB_REF} --ff-only
+        git commit -am "Update PyPi registry"
+        git push github HEAD:${GITHUB_REF}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
