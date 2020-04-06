@@ -1,4 +1,6 @@
-on: [pull_request]
+on:
+  schedule:	
+    - cron:  '30 * * * *' # hourly cron
 name: Update PyPi registry
 jobs:
   build:
