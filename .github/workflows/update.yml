@@ -20,7 +20,9 @@ jobs:
         pip install requests
     - name: Remove old package index
       run: |
+        mv docs/CNAME ./CNAME
         rm -rf docs/*
+        mv ./CNAME docs/CNAME
     - name: Scrape Christoph Gohlke
       run: |
         python scrape.py
