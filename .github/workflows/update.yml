@@ -1,9 +1,7 @@
 name: Update PyPi registry
 on: 
-  issues:
-    type: opened
   schedule:
-    - cron:  '25 15 * * *' # daily cron
+    - cron:  '25 */4 * * *' # daily cron
 jobs:
   build:
     name: Update registry
