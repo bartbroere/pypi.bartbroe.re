@@ -1,9 +1,8 @@
-# pypi.bartbroere.eu
-Collection of Python wheels, mostly for Raspberry Pi 4 (to avoid long waits) 
-and Windows (to avoid the pain of building on Windows)
+# pypi.bartbroe.re
+Collection of Python wheels for Windows (sourced from https://www.lfd.uci.edu/~gohlke/pythonlibs/)
 
 Use with
-``python -m pip install --extra-index-url https://pypi.bartbroere.eu``
+``python -m pip install --extra-index-url https://pypi.bartbroe.re``
 
 ## Parsing Christoph Gohlke's / University of California pages
 The page at https://www.lfd.uci.edu/~gohlke/pythonlibs/ performs some download URL generation

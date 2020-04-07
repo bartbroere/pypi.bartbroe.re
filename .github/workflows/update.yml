@@ -1,20 +1,36 @@
-on:
-  schedule:	
-    - cron:  '30 * * * *' # hourly cron
 name: Update PyPi registry
+on: 
+  issues:
+    type: opened
+  schedule:
+    - cron:  '25 15 * * *' # daily cron
 jobs:
   build:
-    name: Build
+    name: Update registry
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
-    - uses: bartbroere/pypi.bartbroere.eu@master
+    - name: Set up Python 3.7
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.7
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install requests
+    - name: Remove old package index
+      run: |
+        rm -rf docs/*
     - name: Scrape Christoph Gohlke
       run: |
-        python3 scrape.py
-        git remote add github "https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git"
-        git pull github ${GITHUB_REF} --ff-only
-        git commit -am "Update PyPi registry"
-        git push github HEAD:${GITHUB_REF}
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        python scrape.py
+    - name: Commit files
+      run: |
+        git config --local user.email "pypi@bartbroere.eu"
+        git config --local user.name "PyPi updater"
+        git add *
+        git commit -m "Update PyPi registry" -a
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}

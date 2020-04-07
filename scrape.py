@@ -25,9 +25,9 @@ for call_to_dl in gohlke_index.split("onclick")[1:-1]:
     download_filename = download_url.split("/")[-1]
     package_name = download_filename.split("-")[0]
     packages.add(package_name)
-    if not os.path.exists(package_name.lower()):
-        os.mkdir(package_name)
-        with open(os.path.join(package_name, 'index.html'), 'a') as package_index:
+    if not os.path.exists(os.path.join('docs', package_name.lower())):
+        os.mkdir(os.path.join('docs', package_name.lower()))
+        with open(os.path.join('docs', package_name.lower(), 'index.html'), 'a') as package_index:
             package_index.write(f"""
             <html>
             <head>
@@ -35,16 +35,28 @@ for call_to_dl in gohlke_index.split("onclick")[1:-1]:
             </head>
             <body>
             """)
-    with open(os.path.join(package_name, 'index.html'), 'a') as package_index:
+    with open(os.path.join('docs', package_name.lower(), 'index.html'), 'a') as package_index:
         package_index.write(f"""
             <a href="{download_url}">{download_filename}</a>
         """)
 
-for package in packages:
-    with open(os.path.join(package, 'index.html'), 'a') as package_index:
-        package_index.write(f"""
-            </body>
-            </html>
-        """)
-
-print(packages)
+with open('docs/index.html', 'w') as main_package_index:
+    main_package_index.write("""
+    <html>
+    <head>
+    <title>pypi extra wheels</title>
+    </head>
+    <body>
+    """)
+    for package in packages:
+        with open(os.path.join('docs', package.lower(), 'index.html'), 'a') as package_index:
+            package_index.write(f"""
+                </body>
+                </html>
+            """)
+        main_package_index.write(f'<a href="{package}">{package}</a>')
+        print(package)
+    main_package_index.write("""
+    </body>
+    </html>
+    """)
