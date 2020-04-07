@@ -31,7 +31,7 @@ for call_to_dl in gohlke_index.split("onclick")[1:-1]:
             package_index.write(f"""
             <html>
             <head>
-                <title>{package_name}</title>
+                <title>{package_name.lower()}</title>
             </head>
             <body>
             """)
