@@ -48,7 +48,7 @@ with open('docs/index.html', 'w') as main_package_index:
     </head>
     <body>
     """)
-    for package in packages:
+    for package in sorted(packages):
         with open(os.path.join('docs', package.lower(), 'index.html'), 'a') as package_index:
             package_index.write(f"""
                 </body>
