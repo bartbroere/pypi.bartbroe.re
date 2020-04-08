@@ -29,7 +29,7 @@ jobs:
         git config --local user.email "pypi@bartbroere.eu"
         git config --local user.name "PyPi updater"
         git add *
-        git commit -m "Update PyPi registry" -a
+        git commit -m "Update PyPi registry" -a || echo "Nothing changed probably"
     - name: Push changes
       uses: ad-m/github-push-action@master
       with:
