@@ -31,6 +31,10 @@ for call_to_dl in gohlke_index.split("onclick")[1:-1]:
             package_index.write(f"""
             <html>
             <head>
+                <style>
+                body{{margin:40px auto;max-width:650px;line-height:1.6;font-size:18px;color:#444;padding:0 10px}}
+                h1,h2,h3{{line-height:1.2}}
+                </style>
                 <title>{package_name.lower()}</title>
             </head>
             <body>
@@ -44,9 +48,14 @@ with open('docs/index.html', 'w') as main_package_index:
     main_package_index.write("""
     <html>
     <head>
-    <title>pypi extra wheels</title>
+    <style>
+    body{{margin:40px auto;max-width:650px;line-height:1.6;font-size:18px;color:#444;padding:0 10px}}
+    h1,h2,h3{{line-height:1.2}}
+    </style>
+    <title>PyPI Windows wheels</title>
     </head>
     <body>
+    <header>PyPI Windows wheels</header>
     """)
     for package in sorted(packages):
         with open(os.path.join('docs', package.lower(), 'index.html'), 'a') as package_index:
