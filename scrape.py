@@ -63,7 +63,7 @@ with open('docs/index.html', 'w') as main_package_index:
                 </body>
                 </html>
             """)
-        main_package_index.write(f'<a href="{package.lower()}">{package.lower()}</a>')
+        main_package_index.write(f'<a href="{package.lower()}">{package.lower()}</a>\n\n')
         print(package)
     main_package_index.write("""
     </body>
