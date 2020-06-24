@@ -45,7 +45,7 @@ for call_to_dl in gohlke_index.split("onclick")[1:-1]:
         """)
 
 with open('docs/index.html', 'w') as main_package_index:
-    main_package_index.write("""
+    main_package_index.write(f"""
     <html>
     <head>
     <style>
