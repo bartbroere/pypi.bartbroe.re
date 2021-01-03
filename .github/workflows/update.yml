@@ -1,13 +1,13 @@
 name: Update PyPi registry
 on: 
   schedule:
-    - cron:  '25 */4 * * *' # daily cron
+    - cron:  '25 */4 * * *' # every four hours, at minute 25
 jobs:
   build:
     name: Update registry
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@main
     - name: Set up Python 3.7
       uses: actions/setup-python@v1
       with:
