@@ -44,6 +44,7 @@ for call_to_dl in gohlke_index.split("onclick")[1:-1]:
             <body>
             """)
         for custom_wheel in glob.glob(f'docs/{package_name.lower()}/*.whl'):
+            custom_wheel = os.path.basename(custom_wheel)
             with open(os.path.join('docs', package_name.lower(), 'index.html'), 'a') as package_index:
                 package_index.write(f"""
                     <a href="./{custom_wheel}">{custom_wheel}</a>
