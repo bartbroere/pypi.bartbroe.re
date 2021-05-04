@@ -1,3 +1,4 @@
+import glob
 import json
 import os
 
@@ -25,8 +26,11 @@ for call_to_dl in gohlke_index.split("onclick")[1:-1]:
     download_filename = download_url.split("/")[-1]
     package_name = download_filename.split("-")[0]
     packages.add(package_name)
-    if not os.path.exists(os.path.join('docs', package_name.lower())):
-        os.mkdir(os.path.join('docs', package_name.lower()))
+    if not os.path.exists(os.path.join('docs', package_name.lower(), 'index.html')):
+        try:
+            os.mkdir(os.path.join('docs', package_name.lower()))
+        except FileExistsError:
+            pass
         with open(os.path.join('docs', package_name.lower(), 'index.html'), 'a') as package_index:
             package_index.write(f"""
             <html>
@@ -39,6 +43,11 @@ for call_to_dl in gohlke_index.split("onclick")[1:-1]:
             </head>
             <body>
             """)
+        for custom_wheel in glob.glob(f'docs/{package_name.lower()}/*.whl'):
+            with open(os.path.join('docs', package_name.lower(), 'index.html'), 'a') as package_index:
+                package_index.write(f"""
+                    <a href="./{custom_wheel}">{custom_wheel}</a>
+                """)
     with open(os.path.join('docs', package_name.lower(), 'index.html'), 'a') as package_index:
         package_index.write(f"""
             <a href="{download_url}">{download_filename}</a>

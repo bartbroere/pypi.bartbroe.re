@@ -19,7 +19,7 @@ jobs:
     - name: Remove old package index
       run: |
         mv docs/CNAME ./CNAME
-        rm -rf docs/*
+        rm -rf docs/*/index.html
         mv ./CNAME docs/CNAME
     - name: Scrape Christoph Gohlke
       run: |
