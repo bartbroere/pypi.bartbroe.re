@@ -65,7 +65,8 @@ with open('docs/index.html', 'w') as main_package_index:
     <title>PyPI Windows wheels</title>
     </head>
     <body>
-    <header>PyPI Windows wheels</header>
+    <header>PyPI Windows wheels, use it with:</header>
+    <pre>pip install --extra-index-url https://pypi.bartbroe.re</pre>
     """)
     for package in sorted(packages):
         with open(os.path.join('docs', package.lower(), 'index.html'), 'a') as package_index:
