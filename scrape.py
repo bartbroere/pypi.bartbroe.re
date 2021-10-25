@@ -19,20 +19,15 @@ gohlke_index = requests.get('https://www.lfd.uci.edu/~gohlke/pythonlibs/',
                             headers={'User-agent': 'Mozilla/5.0'}).text
 
 packages = {'bcrypt'}
-for call_to_dl in gohlke_index.split("onclick")[1:-1]:
-    ml = json.loads(call_to_dl.split("dl(")[1].split(", ")[0])
-    mi = json.loads(call_to_dl.split(", ")[1].split(")")[0])
-    download_url = 'https://download.lfd.uci.edu/pythonlibs/' + deobfuscate_download_url(ml, mi)
-    download_filename = download_url.split("/")[-1]
-    package_name = download_filename.split("-")[0]
-    packages.add(package_name)
-    if not os.path.exists(os.path.join('docs', package_name.lower(), 'index.html')):
-        try:
-            os.mkdir(os.path.join('docs', package_name.lower()))
-        except FileExistsError:
-            pass
-        with open(os.path.join('docs', package_name.lower(), 'index.html'), 'a') as package_index:
-            package_index.write(f"""
+
+
+def new_package(package_name):
+    try:
+        os.mkdir(os.path.join('docs', package_name.lower()))
+    except FileExistsError:
+        pass
+    with open(os.path.join('docs', package_name.lower(), 'index.html'), 'a') as package_index:
+        package_index.write(f"""
             <html>
             <head>
                 <style>
@@ -43,12 +38,26 @@ for call_to_dl in gohlke_index.split("onclick")[1:-1]:
             </head>
             <body>
             """)
-        for custom_wheel in glob.glob(f'docs/{package_name.lower()}/*.whl'):
-            custom_wheel = os.path.basename(custom_wheel)
-            with open(os.path.join('docs', package_name.lower(), 'index.html'), 'a') as package_index:
-                package_index.write(f"""
+    for custom_wheel in glob.glob(f'docs/{package_name.lower()}/*.whl'):
+        custom_wheel = os.path.basename(custom_wheel)
+        with open(os.path.join('docs', package_name.lower(), 'index.html'), 'a') as package_index:
+            package_index.write(f"""
                     <a href="./{custom_wheel}">{custom_wheel}</a>
                 """)
+
+
+for package in packages:
+    new_package(package)
+
+for call_to_dl in gohlke_index.split("onclick")[1:-1]:
+    ml = json.loads(call_to_dl.split("dl(")[1].split(", ")[0])
+    mi = json.loads(call_to_dl.split(", ")[1].split(")")[0])
+    download_url = 'https://download.lfd.uci.edu/pythonlibs/' + deobfuscate_download_url(ml, mi)
+    download_filename = download_url.split("/")[-1]
+    package_name = download_filename.split("-")[0]
+    packages.add(package_name)
+    if not os.path.exists(os.path.join('docs', package_name.lower(), 'index.html')):
+        new_package(package_name)
     with open(os.path.join('docs', package_name.lower(), 'index.html'), 'a') as package_index:
         package_index.write(f"""
             <a href="{download_url}">{download_filename}</a>
