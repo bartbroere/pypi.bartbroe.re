@@ -18,7 +18,7 @@ def deobfuscate_download_url(ml, mi):
 gohlke_index = requests.get('https://www.lfd.uci.edu/~gohlke/pythonlibs/',
                             headers={'User-agent': 'Mozilla/5.0'}).text
 
-packages = set()
+packages = {'bcrypt'}
 for call_to_dl in gohlke_index.split("onclick")[1:-1]:
     ml = json.loads(call_to_dl.split("dl(")[1].split(", ")[0])
     mi = json.loads(call_to_dl.split(", ")[1].split(")")[0])
